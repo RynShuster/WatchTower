@@ -1,0 +1,88 @@
+{
+  "tolerances": [
+    { "id": "spindle-runout-0mm", "test": "Spindle Runout", "detail": "0 mm", "unit": "mm" },
+    { "id": "spindle-runout-250mm", "test": "Spindle Runout", "detail": "250 mm", "unit": "mm" },
+    { "id": "spindle-parallelism-x", "test": "Spindle Parallelism", "detail": "X", "unit": "mm" },
+    { "id": "spindle-parallelism-y", "test": "Spindle Parallelism", "detail": "Y", "unit": "mm" },
+    { "id": "spindle-velocity", "test": "Spindle Velocity", "detail": "-", "unit": "m/s" },
+    { "id": "spindle-acceleration", "test": "Spindle Acceleration", "detail": "-", "unit": "m/s^2" },
+    { "id": "drawbar-force", "test": "Drawbar Force", "detail": "-", "unit": "kN" },
+    { "id": "straightness-x", "test": "Straightness", "detail": "X", "unit": "mm" },
+    { "id": "straightness-y", "test": "Straightness", "detail": "Y", "unit": "mm" },
+    { "id": "straightness-z", "test": "Straightness", "detail": "Z", "unit": "mm" },
+    { "id": "squareness-xy", "test": "Squareness", "detail": "XY", "unit": "mm" },
+    { "id": "squareness-xz", "test": "Squareness", "detail": "XZ", "unit": "mm" },
+    { "id": "squareness-yz", "test": "Squareness", "detail": "YZ", "unit": "mm" },
+    { "id": "circularity-xy", "test": "Circularity", "detail": "XY", "unit": "mm" },
+    { "id": "circularity-xz", "test": "Circularity", "detail": "XZ", "unit": "mm" },
+    { "id": "circularity-yz", "test": "Circularity", "detail": "YZ", "unit": "mm" }
+  ],
+  "machineOverrides": {
+    "Test": {
+      "spindle-runout-0mm": {
+        "displayValue": "0.010",
+        "rule": { "type": "maximum", "operator": "<=", "threshold": 0.01, "description": "At or below 0.010" }
+      },
+      "spindle-runout-250mm": {
+        "displayValue": "0.015",
+        "rule": { "type": "maximum", "operator": "<=", "threshold": 0.015, "description": "At or below 0.015" }
+      },
+      "spindle-parallelism-x": {
+        "displayValue": "0.0125",
+        "rule": { "type": "maximum", "operator": "<=", "threshold": 0.0125, "description": "At or below 0.0125" }
+      },
+      "spindle-parallelism-y": {
+        "displayValue": "0.0125",
+        "rule": { "type": "maximum", "operator": "<=", "threshold": 0.0125, "description": "At or below 0.0125" }
+      },
+      "spindle-velocity": {
+        "displayValue": "0.9",
+        "rule": { "type": "maximum", "operator": "<=", "threshold": 0.9, "description": "At or below 0.9" }
+      },
+      "spindle-acceleration": {
+        "displayValue": "6",
+        "rule": { "type": "maximum", "operator": "<=", "threshold": 6, "description": "At or below 6" }
+      },
+      "drawbar-force": {
+        "displayValue": "18",
+        "rule": { "type": "minimum", "operator": ">=", "threshold": 18, "description": "At or above 18" }
+      },
+      "straightness-x": {
+        "displayValue": "0.009",
+        "rule": { "type": "maximum", "operator": "<=", "threshold": 0.009, "description": "At or below 0.009" }
+      },
+      "straightness-y": {
+        "displayValue": "0.009",
+        "rule": { "type": "maximum", "operator": "<=", "threshold": 0.009, "description": "At or below 0.009" }
+      },
+      "straightness-z": {
+        "displayValue": "0.009",
+        "rule": { "type": "maximum", "operator": "<=", "threshold": 0.009, "description": "At or below 0.009" }
+      },
+      "squareness-xy": {
+        "displayValue": "0.012",
+        "rule": { "type": "maximum", "operator": "<=", "threshold": 0.012, "description": "At or below 0.012" }
+      },
+      "squareness-xz": {
+        "displayValue": "0.012",
+        "rule": { "type": "maximum", "operator": "<=", "threshold": 0.012, "description": "At or below 0.012" }
+      },
+      "squareness-yz": {
+        "displayValue": "0.012",
+        "rule": { "type": "maximum", "operator": "<=", "threshold": 0.012, "description": "At or below 0.012" }
+      },
+      "circularity-xy": {
+        "displayValue": "0.010",
+        "rule": { "type": "maximum", "operator": "<=", "threshold": 0.01, "description": "At or below 0.010" }
+      },
+      "circularity-xz": {
+        "displayValue": "0.010",
+        "rule": { "type": "maximum", "operator": "<=", "threshold": 0.01, "description": "At or below 0.010" }
+      },
+      "circularity-yz": {
+        "displayValue": "0.010",
+        "rule": { "type": "maximum", "operator": "<=", "threshold": 0.01, "description": "At or below 0.010" }
+      }
+    }
+  }
+}

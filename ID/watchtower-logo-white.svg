@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1024"
+  height="1024"
+  viewBox="0 0 32 32"
+  fill="none"
+>
+  <title>WatchTower logo white</title>
+  <g
+    stroke="#f8fafc"
+    stroke-width="1.75"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M11 4h10l3 3H8z" />
+    <path d="M11 7v4M16 7v4M21 7v4" />
+    <path d="M8 11h16" />
+    <path d="M7 11l2 5h14l2-5" />
+    <path d="M9 16h14" />
+    <path d="M10 16v3M14 16v3M18 16v3M22 16v3" />
+    <path d="M11 16v12h10V16" />
+    <path d="M15 22h2v6h-2z" />
+    <path d="M13 20h6" />
+  </g>
+</svg>

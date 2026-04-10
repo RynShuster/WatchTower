@@ -1,0 +1,226 @@
+/* App shell — dark nav + light main (Flow / machining overview style) */
+
+.appShell {
+  --shell-navy: #121826;
+  --shell-navy-mid: #1a2235;
+  --shell-accent: #d4a012;
+  --shell-bg: #eceef2;
+  --shell-surface: #ffffff;
+  --shell-border: #d8dce3;
+  --shell-muted: #64748b;
+  --shell-text: #0f172a;
+
+  display: flex;
+  min-height: 100vh;
+  background: var(--shell-bg);
+  color: var(--shell-text);
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+.appSidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, var(--shell-navy) 0%, var(--shell-navy-mid) 100%);
+  color: #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 0;
+  border-right: 1px solid rgb(0 0 0 / 0.2);
+}
+
+.appSidebarBrand {
+  padding: 0 1.25rem 1.5rem;
+}
+
+.appSidebarBrandLabel {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.appSidebarBrandTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 0.45rem;
+}
+
+.appSidebarBrandMark {
+  color: #f2c14a;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.18));
+}
+
+.appSidebarBrandTitle strong {
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: #f8fafc;
+  font-weight: 700;
+}
+
+.appNav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0 0.65rem;
+}
+
+.appNav a {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.85rem;
+  border-radius: 6px;
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background 0.12s, color 0.12s;
+}
+
+.appNav a:hover {
+  background: rgb(255 255 255 / 0.06);
+  color: #fff;
+}
+
+.appNav a[data-active="true"] {
+  background: rgb(212 160 18 / 0.15);
+  color: #fde68a;
+  box-shadow: inset 3px 0 0 var(--shell-accent);
+}
+
+.appNavIcon {
+  width: 18px;
+  height: 18px;
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+.appMain {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.appTopBar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.75rem;
+  background: var(--shell-surface);
+  border-bottom: 1px solid var(--shell-border);
+  box-shadow: 0 1px 3px rgb(15 23 42 / 0.06);
+}
+
+.appBreadcrumb {
+  font-size: 0.8rem;
+  color: var(--shell-muted);
+}
+
+.appBreadcrumb strong {
+  color: var(--shell-text);
+  font-weight: 600;
+}
+
+.appMainScroll {
+  flex: 1;
+  overflow: auto;
+  min-height: 0;
+}
+
+/* Overview placeholder */
+.overviewPage {
+  padding: 1.75rem 1.75rem 2.5rem;
+}
+
+.overviewPage h1 {
+  margin: 0;
+  font-size: 1.65rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.overviewSubtitle {
+  margin: 0.45rem 0 1.35rem;
+  color: var(--shell-muted);
+  font-size: 0.9rem;
+}
+
+.overviewSiteGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.overviewSiteCard {
+  background: var(--shell-surface);
+  border: 1px solid var(--shell-border);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgb(15 23 42 / 0.06);
+}
+
+.overviewSiteCard[data-coming-soon="true"] {
+  border-style: dashed;
+}
+
+.overviewSiteCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+}
+
+.overviewSiteCardHeader h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+}
+
+.overviewBadge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #92400e;
+  background: #fef3c7;
+  border: 1px solid #fcd34d;
+  border-radius: 999px;
+  padding: 0.2rem 0.5rem;
+}
+
+.overviewStats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.overviewStat {
+  margin: 0;
+  padding: 0.55rem 0.6rem;
+  border: 1px solid var(--shell-border);
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.overviewStat dt {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--shell-muted);
+}
+
+.overviewStat dd {
+  margin: 0.3rem 0 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}

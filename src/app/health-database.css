@@ -1,0 +1,358 @@
+.healthDbRoot {
+  padding: 1.75rem 1.75rem 2.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.healthDbHeader h1 {
+  margin: 0;
+  font-size: 1.625rem;
+}
+
+.healthDbHeader p {
+  margin: 0.4rem 0 0;
+  color: #4b5563;
+}
+
+.healthDbToolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.healthDbSearchWrap {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.45rem 0.65rem;
+  min-width: 240px;
+  background: #fff;
+}
+
+.healthDbSearchWrap svg {
+  width: 1rem;
+  height: 1rem;
+  color: #64748b;
+  flex: 0 0 auto;
+}
+
+.healthDbSearch {
+  border: 0;
+  outline: 0;
+  width: 100%;
+  min-width: 150px;
+  font: inherit;
+}
+
+.healthDbFilterGroup {
+  display: flex;
+  gap: 0.65rem;
+  align-items: end;
+  flex-wrap: wrap;
+}
+
+.healthDbFilterField {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.healthDbFilterField span {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+.healthDbFilterField select,
+.healthDbDownloadBtn {
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.45rem 0.7rem;
+  background: #fff;
+}
+
+.healthDbFilterField select {
+  appearance: auto;
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  padding-right: 0.7rem;
+}
+
+.healthDbDownloadBtn {
+  color: #0f172a;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.healthDbDownloadBtn:hover {
+  background: #f8fafc;
+}
+
+.healthDbMeta {
+  color: #4b5563;
+}
+
+.healthDbCount {
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.healthDbDeleteError {
+  margin: 0;
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.healthDbTableWrap {
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  background: #fff;
+}
+
+.healthDbTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 820px;
+}
+
+.healthDbTable th,
+.healthDbTable td {
+  text-align: left;
+  padding: 0.75rem 0.85rem;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: top;
+}
+
+.healthDbTable td:last-child,
+.healthDbTable th:last-child {
+  white-space: nowrap;
+}
+
+.healthDbTable th {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+  background: #f8fafc;
+}
+
+.healthDbTable thead tr:first-child th {
+  min-width: 9.5rem;
+  white-space: normal;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+}
+
+.healthDbTable thead tr:nth-child(2) th {
+  padding-top: 0.675rem;
+  padding-bottom: 0.675rem;
+}
+
+.healthDbSubText {
+  color: #64748b;
+  font-size: 0.84rem;
+}
+
+.healthDbEmpty {
+  text-align: center;
+  color: #64748b;
+  padding: 1.2rem;
+}
+
+.healthDbDeleteBtn {
+  border: 1px solid #fecaca;
+  border-radius: 0.45rem;
+  padding: 0.3rem 0.6rem;
+  background: #fff1f2;
+  color: #9f1239;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.healthDbDeleteBtn:hover:not(:disabled) {
+  background: #ffe4e6;
+}
+
+.healthDbDeleteBtn:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.healthDbActionCell {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.healthDbEditBtn {
+  border: 1px solid #bfdbfe;
+  border-radius: 0.45rem;
+  padding: 0.3rem 0.6rem;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.healthDbEditBtn:hover {
+  background: #dbeafe;
+}
+
+.healthDbModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+  background: rgba(15, 23, 42, 0.45);
+}
+
+.healthDbModal {
+  width: min(44rem, 100%);
+  max-height: min(90vh, 900px);
+  overflow-y: auto;
+  border-radius: 0.75rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
+  padding: 1.25rem 1.35rem 1.35rem;
+}
+
+.healthDbModalHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.healthDbModalHeader h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.healthDbModalClose {
+  border: 0;
+  background: transparent;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #64748b;
+  padding: 0.1rem 0.35rem;
+}
+
+.healthDbModalClose:hover {
+  color: #0f172a;
+}
+
+.healthDbModalNote {
+  margin: 0.65rem 0 0;
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+.healthDbEditSections {
+  display: grid;
+  gap: 1.1rem;
+  margin-top: 1rem;
+}
+
+.healthDbEditSection h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  color: #334155;
+}
+
+.healthDbEditSection .oqGrid {
+  margin-top: 0.35rem;
+}
+
+.healthDbEditGrid {
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+}
+
+.healthDbEditLabel {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.healthDbEditLabel input,
+.healthDbEditLabel textarea {
+  font: inherit;
+  font-weight: 400;
+  border: 1px solid #d1d5db;
+  border-radius: 0.45rem;
+  padding: 0.4rem 0.55rem;
+}
+
+.healthDbEditUnitWrap {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.healthDbEditUnitWrap input {
+  flex: 1;
+  min-width: 0;
+}
+
+.healthDbEditUnit {
+  flex: 0 0 auto;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.healthDbModalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+.healthDbModalCancel {
+  border: 1px solid #e2e8f0;
+  border-radius: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  background: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.healthDbModalCancel:hover:not(:disabled) {
+  background: #f8fafc;
+}
+
+.healthDbModalSave {
+  border: 1px solid #1d4ed8;
+  border-radius: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.healthDbModalSave:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.healthDbModalSave:disabled,
+.healthDbModalCancel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

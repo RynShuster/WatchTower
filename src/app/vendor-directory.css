@@ -1,0 +1,311 @@
+.vendorRoot {
+  padding: 1.75rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.vendorHeader h1 {
+  margin: 0;
+  font-size: 1.625rem;
+}
+
+.vendorHeader p {
+  margin: 0.4rem 0 0;
+  color: #4b5563;
+}
+
+.vendorSearchRow {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.vendorSearchRow input,
+.vendorSearchRow select,
+.vendorSearchRow button {
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background: #fff;
+  padding: 0.5rem 0.7rem;
+}
+
+.vendorSearchRow label {
+  font-weight: 600;
+}
+
+.vendorSearchRow input {
+  min-width: 300px;
+}
+
+.vendorSearchRow button {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.vendorPanel {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+.vendorPanel h2 {
+  margin-top: 0;
+}
+
+.vendorCompanyForm,
+.vendorContactForm {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.vendorCompanyForm label,
+.vendorContactForm label {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.vendorCompanyForm input,
+.vendorCompanyForm textarea,
+.vendorCompanyForm button,
+.vendorContactForm input,
+.vendorContactForm button {
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.7rem;
+  background: #fff;
+  font: inherit;
+}
+
+.vendorCompanyForm button,
+.vendorContactForm button {
+  width: fit-content;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.vendorCompanyForm fieldset {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.6rem;
+}
+
+.vendorCategoryGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+}
+
+.vendorCheckbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 500;
+}
+
+.vendorCards {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.vendorCard {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.7rem;
+  padding: 0.9rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.vendorCardHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.vendorCardHead h3 {
+  margin: 0;
+}
+
+.vendorNameRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.vendorCardHead p {
+  margin: 0.35rem 0 0;
+}
+
+.vendorTagRow {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.vendorTagRow span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 2rem;
+  max-width: 8.75rem;
+  background: #dbe5f5;
+  border: 1px solid #8ea4c9;
+  color: #102a57;
+  border-radius: 999px;
+  padding: 0.28rem 0.7rem;
+  font-size: 0.8rem;
+  line-height: 1.15;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.vendorProfile {
+  margin: 0;
+  color: #374151;
+}
+
+.vendorContacts table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 620px;
+}
+
+.vendorContacts th,
+.vendorContacts td {
+  text-align: left;
+  padding: 0.55rem 0.6rem;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: top;
+}
+
+.vendorContacts th {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #64748b;
+}
+
+.vendorContacts {
+  overflow-x: auto;
+}
+
+.vendorMuted {
+  color: #64748b;
+}
+
+.vendorAddContact summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.vendorIconButton {
+  cursor: pointer;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  background: #fff;
+  color: #475569;
+  padding: 0;
+}
+
+.vendorIconButton:hover {
+  background: #eff6ff;
+  border-color: #93c5fd;
+  color: #1d4ed8;
+}
+
+.vendorInlineForm {
+  margin-top: 0.55rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.6rem;
+  padding: 0.65rem;
+  background: #f8fafc;
+  display: grid;
+  gap: 0.65rem;
+  min-width: 300px;
+}
+
+.vendorInlineForm label {
+  display: grid;
+  gap: 0.3rem;
+  font-weight: 600;
+}
+
+.vendorInlineForm input,
+.vendorInlineForm textarea,
+.vendorInlineForm button {
+  border: 1px solid #d1d5db;
+  border-radius: 0.45rem;
+  padding: 0.45rem 0.65rem;
+  background: #fff;
+  font: inherit;
+}
+
+.vendorInlineForm button {
+  width: fit-content;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.vendorContactNameCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.vendorEditActions {
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.vendorEditActionDone,
+.vendorEditActionCancel {
+  border: 1px solid #d1d5db;
+  border-radius: 0.4rem;
+  background: #fff;
+  padding: 0.2rem 0.45rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.78rem;
+}
+
+.vendorEditActionDone {
+  color: #1e3a8a;
+  border-color: #93c5fd;
+  background: #eff6ff;
+}
+
+.vendorEditActionCancel {
+  color: #9f1239;
+  border-color: #fbcfe8;
+  background: #fff1f2;
+}
+
+.vendorCellInput {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 0.45rem;
+  padding: 0.35rem 0.5rem;
+  font: inherit;
+  background: #fff;
+}
+
+.vendorExportLink {
+  color: #1d4ed8;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.vendorExportLink:hover {
+  text-decoration: underline;
+}

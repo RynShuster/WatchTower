@@ -1,0 +1,40 @@
+{
+  "name": "watchtower",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "go": "node scripts/ensure-env.mjs && node scripts/prisma-generate-retry.mjs && tsx scripts/validate-machine-seed.ts && prisma db push --skip-generate && prisma db seed && next dev --turbopack",
+    "setup": "node scripts/ensure-env.mjs && node scripts/prisma-generate-retry.mjs && tsx scripts/validate-machine-seed.ts && prisma db push --skip-generate && prisma db seed",
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:generate": "node scripts/prisma-generate-retry.mjs",
+    "db:push": "prisma db push",
+    "db:seed": "prisma db seed",
+    "db:studio": "prisma studio",
+    "machines:validate": "tsx scripts/validate-machine-seed.ts",
+    "xlsx:import": "python scripts/export-machine-list.py",
+    "xlsx:json": "python scripts/export-machine-list.py"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.5.0",
+    "jszip": "^3.10.1",
+    "next": "^15.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^15.2.0",
+    "prisma": "^6.5.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  }
+}

@@ -1,0 +1,246 @@
+// Local dev: SQLite (file). For PostgreSQL, set provider to "postgresql" and DATABASE_URL.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Location {
+  id        String   @id @default(cuid())
+  /// Short code per spreadsheet (e.g. F2, D01); city/state lives in `site`
+  code      String?
+  site      String
+  building  String?
+  line      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  machines Machine[]
+}
+
+model MachineMake {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  models   MachineModel[]
+  machines Machine[]
+}
+
+model MachineModel {
+  id        String   @id @default(cuid())
+  name      String
+  makeId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  make     MachineMake @relation(fields: [makeId], references: [id], onDelete: Restrict)
+  machines Machine[]
+
+  @@unique([makeId, name])
+}
+
+model MachineType {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  displayName String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  machines       Machine[]
+  checklistItems ChecklistItem[]
+}
+
+model Machine {
+  id              String        @id @default(cuid())
+  /// Canonical machine asset identifier from machineList.import.json; enforced unique when present.
+  internalAssetId String?       @unique
+  serial          String?
+  status          MachineStatus @default(OPERATIONAL)
+  notes           String?
+  locationId      String
+  makeId          String
+  modelId         String
+  typeId          String
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  location    Location     @relation(fields: [locationId], references: [id], onDelete: Restrict)
+  make        MachineMake  @relation(fields: [makeId], references: [id], onDelete: Restrict)
+  model       MachineModel @relation(fields: [modelId], references: [id], onDelete: Restrict)
+  type        MachineType  @relation(fields: [typeId], references: [id], onDelete: Restrict)
+  submissions HealthSubmission[]
+}
+
+enum MachineStatus {
+  OPERATIONAL
+  DEGRADED
+  DOWN
+  MAINTENANCE
+  RETIRED
+}
+
+model ChecklistItem {
+  id            String   @id @default(cuid())
+  key           String   @unique
+  label         String
+  fieldType     ChecklistFieldType
+  required      Boolean  @default(false)
+  sortOrder     Int      @default(0)
+  machineTypeId String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  machineType MachineType? @relation(fields: [machineTypeId], references: [id], onDelete: SetNull)
+  answers     HealthSubmissionAnswer[]
+}
+
+enum ChecklistFieldType {
+  NUMBER
+  BOOLEAN
+  TEXT
+}
+
+model HealthSubmission {
+  id               String   @id @default(cuid())
+  machineId        String
+  submittedAt      DateTime @default(now())
+  submittedById    String?
+  submittedByLabel String?
+  summaryNotes     String?
+  /// Stored as JSON text (SQLite-friendly; use JSON.parse/stringify in app code)
+  metrics          String   @default("{}")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  machine        Machine                 @relation(fields: [machineId], references: [id], onDelete: Cascade)
+  answers        HealthSubmissionAnswer[]
+  attachments    SubmissionAttachment[]
+  serviceRequest ServiceRequest?
+}
+
+model HealthSubmissionAnswer {
+  id           String   @id @default(cuid())
+  submissionId String
+  itemId       String
+  valueNumber  Float?
+  valueBoolean Boolean?
+  valueText    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  submission HealthSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  item       ChecklistItem    @relation(fields: [itemId], references: [id], onDelete: Restrict)
+
+  @@unique([submissionId, itemId])
+}
+
+model SubmissionAttachment {
+  id           String   @id @default(cuid())
+  submissionId String
+  originalName String
+  storedPath   String
+  mimeType     String
+  sizeBytes    Int
+  uploadedAt   DateTime @default(now())
+
+  submission HealthSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+}
+
+model ServiceRequest {
+  id           String               @id @default(cuid())
+  submissionId String               @unique
+  priority     ServiceRequestPriority @default(NORMAL)
+  description  String?
+  status       ServiceRequestStatus @default(SUBMITTED)
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+
+  submission HealthSubmission     @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  feedback   OperationsFeedback[]
+}
+
+enum ServiceRequestPriority {
+  LOW
+  NORMAL
+  HIGH
+  CRITICAL
+}
+
+enum ServiceRequestStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  DEFERRED
+  REJECTED
+  SCHEDULED
+}
+
+model OperationsFeedback {
+  id               String   @id @default(cuid())
+  serviceRequestId String
+  authorId         String?
+  authorLabel      String?
+  comment          String
+  decision         String?
+  createdAt        DateTime @default(now())
+
+  serviceRequest ServiceRequest @relation(fields: [serviceRequestId], references: [id], onDelete: Cascade)
+}
+
+model VendorCompany {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  profile     String?
+  website     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  contacts      VendorContact[]
+  categoryLinks VendorCompanyCategory[]
+
+  @@index([name])
+}
+
+model VendorContact {
+  id        String   @id @default(cuid())
+  companyId String
+  name      String
+  position  String?
+  location  String?
+  email     String?
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  company VendorCompany @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@index([companyId, name])
+}
+
+model VendorCategory {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  companyLinks VendorCompanyCategory[]
+}
+
+model VendorCompanyCategory {
+  companyId  String
+  categoryId String
+  createdAt  DateTime @default(now())
+
+  company  VendorCompany  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  category VendorCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([companyId, categoryId])
+  @@index([categoryId])
+}
