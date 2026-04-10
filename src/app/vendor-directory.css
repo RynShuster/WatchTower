@@ -11,7 +11,7 @@
 
 .vendorHeader p {
   margin: 0.4rem 0 0;
-  color: #4b5563;
+  color: var(--shell-text-secondary);
 }
 
 .vendorSearchRow {
@@ -24,14 +24,16 @@
 .vendorSearchRow input,
 .vendorSearchRow select,
 .vendorSearchRow button {
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--shell-border);
   border-radius: 0.5rem;
-  background: #fff;
+  background: var(--shell-surface);
+  color: var(--shell-text);
   padding: 0.5rem 0.7rem;
 }
 
 .vendorSearchRow label {
   font-weight: 600;
+  color: var(--shell-text);
 }
 
 .vendorSearchRow input {
@@ -44,10 +46,11 @@
 }
 
 .vendorPanel {
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--shell-surface);
+  border: 1px solid var(--shell-border);
   border-radius: 0.75rem;
   padding: 1rem;
+  color: var(--shell-text);
 }
 
 .vendorPanel h2 {
@@ -65,6 +68,7 @@
   display: grid;
   gap: 0.35rem;
   font-weight: 600;
+  color: var(--shell-text);
 }
 
 .vendorCompanyForm input,
@@ -72,10 +76,11 @@
 .vendorCompanyForm button,
 .vendorContactForm input,
 .vendorContactForm button {
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--shell-border);
   border-radius: 0.5rem;
   padding: 0.5rem 0.7rem;
-  background: #fff;
+  background: var(--shell-surface);
+  color: var(--shell-text);
   font: inherit;
 }
 
@@ -87,7 +92,7 @@
 }
 
 .vendorCompanyForm fieldset {
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--shell-border);
   border-radius: 0.6rem;
 }
 
@@ -102,6 +107,7 @@
   align-items: center;
   gap: 0.4rem;
   font-weight: 500;
+  color: var(--shell-text);
 }
 
 .vendorCards {
@@ -110,11 +116,12 @@
 }
 
 .vendorCard {
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--shell-border);
   border-radius: 0.7rem;
   padding: 0.9rem;
   display: grid;
   gap: 0.75rem;
+  background: var(--shell-surface);
 }
 
 .vendorCardHead {
@@ -126,6 +133,7 @@
 
 .vendorCardHead h3 {
   margin: 0;
+  color: var(--shell-text);
 }
 
 .vendorNameRow {
@@ -137,6 +145,7 @@
 
 .vendorCardHead p {
   margin: 0.35rem 0 0;
+  color: var(--shell-text-secondary);
 }
 
 .vendorTagRow {
@@ -153,9 +162,9 @@
   text-align: center;
   min-height: 2rem;
   max-width: 8.75rem;
-  background: #dbe5f5;
-  border: 1px solid #8ea4c9;
-  color: #102a57;
+  background: var(--shell-vendor-tag-bg);
+  border: 1px solid var(--shell-vendor-tag-border);
+  color: var(--shell-vendor-tag-text);
   border-radius: 999px;
   padding: 0.28rem 0.7rem;
   font-size: 0.8rem;
@@ -166,7 +175,7 @@
 
 .vendorProfile {
   margin: 0;
-  color: #374151;
+  color: var(--shell-text-tertiary);
 }
 
 .vendorContacts table {
@@ -179,15 +188,16 @@
 .vendorContacts td {
   text-align: left;
   padding: 0.55rem 0.6rem;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--shell-subtle-2);
   vertical-align: top;
+  color: var(--shell-text);
 }
 
 .vendorContacts th {
   font-size: 0.82rem;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  color: #64748b;
+  color: var(--shell-muted);
 }
 
 .vendorContacts {
@@ -195,40 +205,41 @@
 }
 
 .vendorMuted {
-  color: #64748b;
+  color: var(--shell-muted);
 }
 
 .vendorAddContact summary {
   cursor: pointer;
   font-weight: 600;
+  color: var(--shell-text);
 }
 
 .vendorIconButton {
   cursor: pointer;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--shell-border);
   border-radius: 0.5rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 1.8rem;
   height: 1.8rem;
-  background: #fff;
-  color: #475569;
+  background: var(--shell-surface);
+  color: var(--shell-text-secondary);
   padding: 0;
 }
 
 .vendorIconButton:hover {
-  background: #eff6ff;
-  border-color: #93c5fd;
-  color: #1d4ed8;
+  background: var(--shell-link-blue-soft-bg);
+  border-color: var(--shell-link-blue-soft-border);
+  color: var(--shell-link-blue);
 }
 
 .vendorInlineForm {
   margin-top: 0.55rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--shell-border);
   border-radius: 0.6rem;
   padding: 0.65rem;
-  background: #f8fafc;
+  background: var(--shell-subtle);
   display: grid;
   gap: 0.65rem;
   min-width: 300px;
@@ -238,15 +249,17 @@
   display: grid;
   gap: 0.3rem;
   font-weight: 600;
+  color: var(--shell-text);
 }
 
 .vendorInlineForm input,
 .vendorInlineForm textarea,
 .vendorInlineForm button {
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--shell-border);
   border-radius: 0.45rem;
   padding: 0.45rem 0.65rem;
-  background: #fff;
+  background: var(--shell-surface);
+  color: var(--shell-text);
   font: inherit;
 }
 
@@ -270,9 +283,9 @@
 
 .vendorEditActionDone,
 .vendorEditActionCancel {
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--shell-border);
   border-radius: 0.4rem;
-  background: #fff;
+  background: var(--shell-surface);
   padding: 0.2rem 0.45rem;
   cursor: pointer;
   font-weight: 600;
@@ -280,28 +293,29 @@
 }
 
 .vendorEditActionDone {
-  color: #1e3a8a;
-  border-color: #93c5fd;
-  background: #eff6ff;
+  color: var(--shell-link-blue);
+  border-color: var(--shell-link-blue-soft-border);
+  background: var(--shell-link-blue-soft-bg);
 }
 
 .vendorEditActionCancel {
-  color: #9f1239;
-  border-color: #fbcfe8;
-  background: #fff1f2;
+  color: var(--shell-delete-text);
+  border-color: var(--shell-delete-border);
+  background: var(--shell-delete-bg);
 }
 
 .vendorCellInput {
   width: 100%;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--shell-border);
   border-radius: 0.45rem;
   padding: 0.35rem 0.5rem;
   font: inherit;
-  background: #fff;
+  background: var(--shell-surface);
+  color: var(--shell-text);
 }
 
 .vendorExportLink {
-  color: #1d4ed8;
+  color: var(--shell-link-blue);
   text-decoration: none;
   font-weight: 600;
 }

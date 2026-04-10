@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useMainTheme } from "@/app/_components/useMainTheme";
 
 type RatioPoint = {
   label: string;
@@ -60,7 +61,7 @@ function bandForPoint(point: RatioPoint): ConditionBand {
   return getConditionBand(point.conditionRatio ?? point.ratio);
 }
 
-const conditionVisuals: Record<
+type ConditionVisuals = Record<
   ConditionBand,
   {
     buttonBg: string;
@@ -69,7 +70,9 @@ const conditionVisuals: Record<
     dotFill: string;
     dotStroke: string;
   }
-> = {
+>;
+
+const conditionVisualsLight: ConditionVisuals = {
   outOfSpec: {
     buttonBg: "rgb(254 242 242)",
     buttonBgActive: "rgb(252 165 165)",
@@ -100,7 +103,40 @@ const conditionVisuals: Record<
   },
 };
 
+const conditionVisualsDark: ConditionVisuals = {
+  outOfSpec: {
+    buttonBg: "rgb(127 29 29 / 0.4)",
+    buttonBgActive: "rgb(185 28 28 / 0.55)",
+    buttonBorder: "#f87171",
+    dotFill: "#f87171",
+    dotStroke: "#fecaca",
+  },
+  high: {
+    buttonBg: "rgb(154 52 18 / 0.4)",
+    buttonBgActive: "rgb(234 88 12 / 0.5)",
+    buttonBorder: "#fb923c",
+    dotFill: "#fb923c",
+    dotStroke: "#ffedd5",
+  },
+  mid: {
+    buttonBg: "rgb(113 63 18 / 0.4)",
+    buttonBgActive: "rgb(202 138 4 / 0.5)",
+    buttonBorder: "#facc15",
+    dotFill: "#facc15",
+    dotStroke: "#fef9c3",
+  },
+  low: {
+    buttonBg: "rgb(6 78 59 / 0.45)",
+    buttonBgActive: "rgb(16 185 129 / 0.5)",
+    buttonBorder: "#34d399",
+    dotFill: "#4ade80",
+    dotStroke: "#bbf7d0",
+  },
+};
+
 export function RadarVisualization({ radarSnapshots, trendSeries }: RadarVisualizationProps) {
+  const mainTheme = useMainTheme();
+  const conditionPalette = mainTheme === "dark" ? conditionVisualsDark : conditionVisualsLight;
   const [selectedSnapshotId, setSelectedSnapshotId] = useState<string>(() => radarSnapshots[0]?.submissionId ?? "");
   const [selectedRadarLabels, setSelectedRadarLabels] = useState<string[]>([]);
   const [selectedTrendLabels, setSelectedTrendLabels] = useState<string[]>([]);
@@ -135,17 +171,11 @@ export function RadarVisualization({ radarSnapshots, trendSeries }: RadarVisuali
   );
   const activeRatioPoints = selectedSnapshot?.ratioPoints ?? [];
   const outOfSpecCount = activeRatioPoints.filter((point) => point.ratio > 1).length;
-  const radarBackgroundFill = useMemo(() => {
-    if (activeRatioPoints.some((point) => point.ratio > 1)) {
-      return "rgb(254 242 242)"; // very light red
-    }
-    if (activeRatioPoints.some((point) => bandForPoint(point) === "high")) {
-      return "rgb(255 237 213)"; // light orange
-    }
-    if (activeRatioPoints.some((point) => bandForPoint(point) === "mid")) {
-      return "rgb(254 249 195)"; // light yellow
-    }
-    return "rgb(220 252 231)"; // light green
+  const radarBgClass = useMemo(() => {
+    if (activeRatioPoints.some((point) => point.ratio > 1)) return "machineSummaryRadarFill--red";
+    if (activeRatioPoints.some((point) => bandForPoint(point) === "high")) return "machineSummaryRadarFill--orange";
+    if (activeRatioPoints.some((point) => bandForPoint(point) === "mid")) return "machineSummaryRadarFill--yellow";
+    return "machineSummaryRadarFill--green";
   }, [activeRatioPoints]);
 
   const chartPoints = useMemo(
@@ -251,7 +281,7 @@ export function RadarVisualization({ radarSnapshots, trendSeries }: RadarVisuali
           const hovered = hoveredRadarLabel === point.label;
           const showMeasurementActive = selected || hovered;
           const emphasized = selected || hovered;
-          const visuals = conditionVisuals[bandForPoint(point)];
+          const visuals = conditionPalette[bandForPoint(point)];
           return (
             <div
               key={`${prefix}-toggle-row-${point.label}`}
@@ -345,7 +375,7 @@ export function RadarVisualization({ radarSnapshots, trendSeries }: RadarVisuali
                 className="machineSummaryRadar"
                 aria-label="Machine health ratio radar"
               >
-                <circle cx={radarCenterX} cy={radarCenterY} r={radarRadius} fill={radarBackgroundFill} />
+                <circle cx={radarCenterX} cy={radarCenterY} r={radarRadius} className={radarBgClass} />
                 {ringSteps.map((r) => {
                   const isSpecLimit = r === 1;
                   const scaledRadius = radarRadius * (r / maxDisplayRatio);
@@ -356,14 +386,22 @@ export function RadarVisualization({ radarSnapshots, trendSeries }: RadarVisuali
                       cy={radarCenterY}
                       r={scaledRadius}
                       fill="none"
-                      stroke={isSpecLimit ? "#b91c1c" : "#cbd5e1"}
+                      stroke={isSpecLimit ? "var(--shell-spec-line)" : "var(--shell-ring-muted)"}
                       strokeWidth={isSpecLimit ? "1.5" : "1"}
                       strokeDasharray={isSpecLimit ? "6 4" : undefined}
                     />
                   );
                 })}
                 <g className="machineSummaryVizSpecLegend">
-                  <line x1={radarWidth - 138} y1={28} x2={radarWidth - 102} y2={28} stroke="#b91c1c" strokeWidth="2" strokeDasharray="6 4" />
+                  <line
+                    x1={radarWidth - 138}
+                    y1={28}
+                    x2={radarWidth - 102}
+                    y2={28}
+                    stroke="var(--shell-spec-line)"
+                    strokeWidth="2"
+                    strokeDasharray="6 4"
+                  />
                   <text x={radarWidth - 96} y={32} className="machineSummaryVizSpecLegendLabel">
                     Spec Limit
                   </text>
@@ -383,7 +421,7 @@ export function RadarVisualization({ radarSnapshots, trendSeries }: RadarVisuali
                     y1={radarCenterY}
                     x2={point.edgeX}
                     y2={point.edgeY}
-                    stroke="#e2e8f0"
+                    stroke="var(--shell-chart-grid)"
                     strokeWidth="1"
                   />
                 ))}
@@ -392,7 +430,7 @@ export function RadarVisualization({ radarSnapshots, trendSeries }: RadarVisuali
                   .filter((point) => selectedRadarLabels.includes(point.label))
                   .map((point) => (
                     (() => {
-                      const visuals = conditionVisuals[bandForPoint(point)];
+                      const visuals = conditionPalette[bandForPoint(point)];
                       return (
                     <circle
                       key={`selected-${point.label}`}
@@ -410,7 +448,7 @@ export function RadarVisualization({ radarSnapshots, trendSeries }: RadarVisuali
                   ? chartPoints
                       .filter((point) => point.label === hoveredRadarLabel)
                       .map((point) => {
-                        const visuals = conditionVisuals[bandForPoint(point)];
+                        const visuals = conditionPalette[bandForPoint(point)];
                         return (
                           <circle
                             key={`hover-${point.label}`}

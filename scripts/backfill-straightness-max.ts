@@ -93,7 +93,7 @@ async function main() {
     }
 
     const averages =
-      ballbar.averages && typeof ballbar.averages === "object"
+      ballbar?.averages && typeof ballbar.averages === "object"
         ? (ballbar.averages as Record<string, unknown>)
         : null;
     const straightnessByAxisUm =

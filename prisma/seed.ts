@@ -32,31 +32,32 @@ async function main() {
   const rows = JSON.parse(readFileSync(jsonPath, "utf8")) as MachineSeedRow[];
   assertValidMachineSeedRows(rows, MACHINE_SEED_FILE);
 
-  await prisma.checklistItem.updateMany({ data: { machineTypeId: null } });
-  await prisma.operationsFeedback.deleteMany();
-  await prisma.serviceRequest.deleteMany();
-  await prisma.healthSubmissionAnswer.deleteMany();
-  await prisma.submissionAttachment.deleteMany();
-  await prisma.healthSubmission.deleteMany();
-  await prisma.machine.deleteMany();
-  await prisma.location.deleteMany();
-  await prisma.machineModel.deleteMany();
-  await prisma.machineMake.deleteMany();
-  await prisma.machineType.deleteMany();
+  /** Existing + newly assigned type codes (never collide on create). */
+  const typeCodesUsed = new Set(
+    (await prisma.machineType.findMany({ select: { code: true } })).map((t) => t.code),
+  );
 
-  const typeCodesUsed = new Set<string>();
-  /** Display label from spreadsheet → MachineType row id (FK), not `code` */
+  /** Display label from spreadsheet → MachineType id */
   const typeDisplayToId = new Map<string, string>();
   const uniqueTypes = [...new Set(rows.map((r) => r.typeID).filter(Boolean))];
   for (const displayName of uniqueTypes) {
+    const existing = await prisma.machineType.findFirst({ where: { displayName } });
+    if (existing) {
+      typeDisplayToId.set(displayName, existing.id);
+      continue;
+    }
     const code = typeCodeFromDisplay(displayName, typeCodesUsed);
-    const row = await prisma.machineType.create({ data: { code, displayName } });
-    typeDisplayToId.set(displayName, row.id);
+    const created = await prisma.machineType.create({ data: { code, displayName } });
+    typeDisplayToId.set(displayName, created.id);
   }
 
   const makeMap = new Map<string, string>();
   for (const name of [...new Set(rows.map((r) => r.makeID).filter(Boolean))]) {
-    const m = await prisma.machineMake.create({ data: { name } });
+    const m = await prisma.machineMake.upsert({
+      where: { name },
+      create: { name },
+      update: {},
+    });
     makeMap.set(name, m.id);
   }
 
@@ -67,8 +68,10 @@ async function main() {
     if (modelMap.has(key)) continue;
     const makeId = makeMap.get(r.makeID);
     if (!makeId) throw new Error(`Missing make: ${r.makeID}`);
-    const mo = await prisma.machineModel.create({
-      data: { name: r.modelID, makeId },
+    const mo = await prisma.machineModel.upsert({
+      where: { makeId_name: { makeId, name: r.modelID } },
+      create: { name: r.modelID, makeId },
+      update: {},
     });
     modelMap.set(key, mo.id);
   }
@@ -77,6 +80,17 @@ async function main() {
   async function ensureLocation(site: string, code: string, line: string): Promise<string> {
     const key = `${site}\0${code}\0${line}`;
     if (locMap.has(key)) return locMap.get(key)!;
+    const existing = await prisma.location.findFirst({
+      where: {
+        site,
+        code: code ? code : null,
+        line: line ? line : null,
+      },
+    });
+    if (existing) {
+      locMap.set(key, existing.id);
+      return existing.id;
+    }
     const loc = await prisma.location.create({
       data: {
         site,
@@ -98,9 +112,18 @@ async function main() {
     }
     const locationId = await ensureLocation(r.citystateID, r.locationID, r.lineID);
 
-    await prisma.machine.create({
-      data: {
+    await prisma.machine.upsert({
+      where: { internalAssetId: r.assetID },
+      create: {
         internalAssetId: r.assetID,
+        serial: r.serialID || null,
+        locationId,
+        makeId,
+        modelId,
+        typeId,
+        status: "OPERATIONAL",
+      },
+      update: {
         serial: r.serialID || null,
         locationId,
         makeId,
@@ -149,8 +172,10 @@ async function main() {
     });
   }
 
+  const submissionCount = await prisma.healthSubmission.count();
   console.log(
-    `Seed from ${MACHINE_SEED_FILE} (${rows.length} machine rows → ${await prisma.machine.count()} machines).`,
+    `Seed from ${MACHINE_SEED_FILE} (${rows.length} catalog rows → ${await prisma.machine.count()} machines). ` +
+      `Health submissions preserved: ${submissionCount}.`,
   );
 }
 

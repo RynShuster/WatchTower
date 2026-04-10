@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { AppSidebar } from "../_components/AppSidebar";
+import { ThemeToggle } from "../_components/ThemeToggle";
 import "../shell.css";
 
 export default function AppShellLayout({ children }: { children: ReactNode }) {
@@ -11,6 +12,7 @@ export default function AppShellLayout({ children }: { children: ReactNode }) {
           <div className="appBreadcrumb">
             Overview <span aria-hidden>›</span> <strong>WatchTower</strong>
           </div>
+          <ThemeToggle />
         </header>
         <div className="appMainScroll">{children}</div>
       </div>
