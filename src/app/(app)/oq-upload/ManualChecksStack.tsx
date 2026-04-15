@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 
 type ManualCheckFieldKey =
   | "spindleRunout0mm"
@@ -37,16 +37,31 @@ const manualCheckFields: ManualCheckField[] = [
 const emptyValues = (): Record<ManualCheckFieldKey, string> =>
   Object.fromEntries(manualCheckFields.map((f) => [f.key, ""])) as Record<ManualCheckFieldKey, string>;
 
+const ballbarFileSteps = [
+  { name: "xyFile" as const, label: "XY" as const },
+  { name: "xzFile" as const, label: "XZ" as const },
+  { name: "yzFile" as const, label: "YZ" as const },
+];
+
 export function ManualChecksStack() {
   const fieldCount = manualCheckFields.length;
+  const ballbarStepCount = ballbarFileSteps.length;
+  const totalContentSteps = fieldCount + ballbarStepCount;
+
   const [step, setStep] = useState(0);
   const [values, setValues] = useState(() => emptyValues());
+  const manualInputRef = useRef<HTMLInputElement>(null);
+  const ballbarContinueRef = useRef<HTMLButtonElement>(null);
 
   const fieldIndex = step - 1;
   const currentField = fieldIndex >= 0 && fieldIndex < fieldCount ? manualCheckFields[fieldIndex] : null;
 
+  const ballbarIndex = step - fieldCount - 1;
+  const currentBallbar =
+    ballbarIndex >= 0 && ballbarIndex < ballbarStepCount ? ballbarFileSteps[ballbarIndex] : null;
+
   const progressLabel =
-    step === 0 ? null : step > fieldCount ? "Complete" : `Step ${step} of ${fieldCount}`;
+    step === 0 ? null : step > totalContentSteps ? "Complete" : `Step ${step} of ${totalContentSteps}`;
 
   function handleStart() {
     setStep(1);
@@ -69,7 +84,18 @@ export function ManualChecksStack() {
       `You entered ${raw}${unitPhrase} for ${currentField.label}. Is this correct?`,
     );
     if (!ok) return;
-    setStep((s) => Math.min(s + 1, fieldCount + 1));
+    setStep((s) => Math.min(s + 1, totalContentSteps + 1));
+  }
+
+  function handleManualFieldKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.key !== "Enter" && event.key !== "NumpadEnter") return;
+    event.preventDefault();
+    handleConfirm();
+  }
+
+  function handleBallbarConfirm() {
+    if (!currentBallbar) return;
+    setStep((s) => Math.min(s + 1, totalContentSteps + 1));
   }
 
   function handleBack() {
@@ -94,6 +120,26 @@ export function ManualChecksStack() {
     });
   }
 
+  useEffect(() => {
+    if (step < 1 || step > fieldCount) return;
+    const frame = requestAnimationFrame(() => {
+      manualInputRef.current?.focus();
+      manualInputRef.current?.select();
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [step, fieldCount]);
+
+  useEffect(() => {
+    if (step <= fieldCount || step > totalContentSteps) return;
+    const frame = requestAnimationFrame(() => {
+      ballbarContinueRef.current?.focus();
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [step, fieldCount, totalContentSteps]);
+
+  const showIntroManualOrComplete =
+    !currentBallbar && (step === 0 || currentField !== null || step > totalContentSteps);
+
   return (
     <div className="oqManualWizard">
       {manualCheckFields.map((field) => (
@@ -107,75 +153,109 @@ export function ManualChecksStack() {
       ) : null}
 
       <div
-        className={`oqManualWizardViewport${step > fieldCount ? " oqManualWizardViewportComplete" : ""}`}
+        className={`oqManualWizardViewport${step > totalContentSteps ? " oqManualWizardViewportComplete" : ""}`}
       >
-        <div key={step} className="oqManualWizardPanel">
-          {step === 0 ? (
-            <>
-              <h3 className="oqManualWizardTitle">Manual OQ checks</h3>
-              <p className="oqManualWizardIntro">
-                Enter each measurement in the units shown. They match the OQ tolerance tables. Confirm each value
-                before moving on.
-              </p>
-              <button className="oqWizardPrimaryBtn" type="button" onClick={handleStart}>
-                Start upload
-              </button>
-            </>
-          ) : null}
-
-          {currentField ? (
-            <>
+        {ballbarFileSteps.map((entry, idx) => {
+          const forStep = fieldCount + 1 + idx;
+          const active = step === forStep;
+          return (
+            <div
+              key={entry.name}
+              className={active ? "oqBallbarWizardStep oqBallbarWizardStepActive" : "oqBallbarWizardStep"}
+            >
               <label className="oqManualWizardFieldLabel">
-                {currentField.label}
-                <div className="oqInputWithUnit">
-                  <input
-                    type="number"
-                    step="any"
-                    inputMode="decimal"
-                    value={values[currentField.key]}
-                    onChange={(event) =>
-                      updateFieldValue(currentField.key, event.target.value, fieldIndex)
-                    }
-                  />
-                  <span>{currentField.unit}</span>
-                </div>
+                Ballbar file — {entry.label} plane
+                <input name={entry.name} type="file" accept=".b5r,application/xml,text/xml" />
               </label>
+              <p className="oqManualWizardIntro">
+                Optional. Attach a Renishaw <code>.b5r</code> trace for this plane if you have one.
+              </p>
               <div className="oqManualWizardActions">
                 <button className="oqWizardSecondaryBtn" type="button" onClick={handleBack}>
                   Back
                 </button>
-                <button className="oqWizardPrimaryBtn" type="button" onClick={handleConfirm}>
-                  Confirm
+                <button
+                  ref={active ? ballbarContinueRef : undefined}
+                  className="oqWizardPrimaryBtn"
+                  type="button"
+                  onClick={handleBallbarConfirm}
+                >
+                  Continue
                 </button>
               </div>
-            </>
-          ) : null}
+            </div>
+          );
+        })}
 
-          {step > fieldCount ? (
-            <>
-              <div className="oqManualWizardCompleteMark" aria-hidden>
-                <svg className="oqManualWizardCheckSvg" viewBox="0 0 56 56" width={56} height={56}>
-                  <circle className="oqManualWizardCheckCircle" cx="28" cy="28" r="26" />
-                  <path
-                    className="oqManualWizardCheckPath"
-                    d="M17 28.5 L24.5 36 L39 19.5"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="3.25"
-                  />
-                </svg>
-              </div>
-              <h3 className="oqManualWizardTitle">All manual checks entered</h3>
-              <p className="oqManualWizardIntro">
-                Continue with ballbar files and notes below, then save the OQ upload.
-              </p>
-              <button className="oqWizardSecondaryBtn" type="button" onClick={() => setStep(fieldCount)}>
-                Back to last measurement
-              </button>
-            </>
-          ) : null}
-        </div>
+        {showIntroManualOrComplete ? (
+          <div key={step} className="oqManualWizardPanel">
+            {step === 0 ? (
+              <>
+                <h3 className="oqManualWizardTitle">OQ Checks</h3>
+                <p className="oqManualWizardIntro">
+                  Walk through each manual measurement (units match the OQ tolerance tables), then attach ballbar
+                  traces plane by plane. Confirm each measurement before moving on.
+                </p>
+                <button className="oqWizardPrimaryBtn" type="button" onClick={handleStart}>
+                  Start upload
+                </button>
+              </>
+            ) : null}
+
+            {currentField ? (
+              <>
+                <label className="oqManualWizardFieldLabel">
+                  {currentField.label}
+                  <div className="oqInputWithUnit">
+                    <input
+                      ref={manualInputRef}
+                      type="number"
+                      step="any"
+                      inputMode="decimal"
+                      value={values[currentField.key]}
+                      onChange={(event) =>
+                        updateFieldValue(currentField.key, event.target.value, fieldIndex)
+                      }
+                      onKeyDown={handleManualFieldKeyDown}
+                    />
+                    <span>{currentField.unit}</span>
+                  </div>
+                </label>
+                <div className="oqManualWizardActions">
+                  <button className="oqWizardSecondaryBtn" type="button" onClick={handleBack}>
+                    Back
+                  </button>
+                  <button className="oqWizardPrimaryBtn" type="button" onClick={handleConfirm}>
+                    Confirm
+                  </button>
+                </div>
+              </>
+            ) : null}
+
+            {step > totalContentSteps ? (
+              <>
+                <div className="oqManualWizardCompleteMark" aria-hidden>
+                  <svg className="oqManualWizardCheckSvg" viewBox="0 0 56 56" width={56} height={56}>
+                    <circle className="oqManualWizardCheckCircle" cx="28" cy="28" r="26" />
+                    <path
+                      className="oqManualWizardCheckPath"
+                      d="M17 28.5 L24.5 36 L39 19.5"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="3.25"
+                    />
+                  </svg>
+                </div>
+                <h3 className="oqManualWizardTitle">All OQ checks complete</h3>
+                <p className="oqManualWizardIntro">Add any summary notes below, then save the OQ upload.</p>
+                <button className="oqWizardSecondaryBtn" type="button" onClick={() => setStep(totalContentSteps)}>
+                  Back to last step
+                </button>
+              </>
+            ) : null}
+          </div>
+        ) : null}
       </div>
     </div>
   );
