@@ -2,7 +2,6 @@ import { submitOQUpload } from "./actions";
 import { MachineDownselect, type MachineDownselectOption } from "./MachineDownselect";
 import { ManualChecksStack } from "./ManualChecksStack";
 import { OQUploadSubnav } from "./OQUploadSubnav";
-import { BallbarFileInputs } from "./BallbarFileInputs";
 import { prisma } from "@/lib/prisma";
 import { HEALTH_DATABASE_TESTING_UPLOAD_REASON } from "../health-database/healthDatabaseData";
 import "@/app/oq-upload.css";
@@ -96,15 +95,8 @@ export default async function OQUploadPage({ searchParams }: OQUploadPageProps) 
         </section>
 
         <section className="oqSection">
-          <h2>Manual OQ Checks</h2>
+          <h2>OQ Checks</h2>
           <ManualChecksStack />
-        </section>
-
-        <section className="oqSection">
-          <h2>Ballbar Files</h2>
-          <p className="oqSectionNote">Attach ballbar files as needed.</p>
-
-          <BallbarFileInputs />
         </section>
 
         <section className="oqSection">
