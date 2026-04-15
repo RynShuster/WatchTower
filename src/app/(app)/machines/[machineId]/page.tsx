@@ -61,12 +61,12 @@ type MeasurementRatioConfig = {
 const measurementRatioConfigs: MeasurementRatioConfig[] = [
   { label: "Runout 0mm", key: "spindleRunout0mm", toleranceId: "spindle-runout-0mm", unit: "mm" },
   { label: "Runout 250mm", key: "spindleRunout250mm", toleranceId: "spindle-runout-250mm", unit: "mm" },
-  { label: "Parallelism X", key: "spindleParallelismX", toleranceId: "spindle-parallelism-x", unit: "mm" },
   { label: "Parallelism Y", key: "spindleParallelismY", toleranceId: "spindle-parallelism-y", unit: "mm" },
-  { label: "Velocity", key: "spindleVelocity", toleranceId: "spindle-velocity", unit: "mm/s RMS" },
-  { label: "Acceleration", key: "spindleAcceleration", toleranceId: "spindle-acceleration", unit: "m/s2 RMS" },
+  { label: "Parallelism X", key: "spindleParallelismX", toleranceId: "spindle-parallelism-x", unit: "mm" },
+  { label: "Velocity", key: "spindleVelocity", toleranceId: "spindle-velocity", unit: "mm/s" },
+  { label: "Acceleration", key: "spindleAcceleration", toleranceId: "spindle-acceleration", unit: "m/s^2" },
   {
-    label: "Draw Bar Force",
+    label: "Drawbar force",
     key: "drawBarForce",
     toleranceId: "drawbar-force",
     unit: "kN",
@@ -87,11 +87,11 @@ const measurementRatioConfigs: MeasurementRatioConfig[] = [
 const spindleHealthLabels: Array<{ key: string; label: string; unit?: string }> = [
   { key: "spindleRunout0mm", label: "Spindle runout at 0 mm", unit: "mm" },
   { key: "spindleRunout250mm", label: "Spindle runout at 250 mm", unit: "mm" },
-  { key: "spindleParallelismX", label: "Spindle parallelism to X", unit: "mm" },
   { key: "spindleParallelismY", label: "Spindle parallelism to Y", unit: "mm" },
-  { key: "spindleAcceleration", label: "Spindle acceleration", unit: "m/s2 RMS" },
-  { key: "spindleVelocity", label: "Spindle velocity", unit: "mm/s RMS" },
-  { key: "drawBarForce", label: "Draw bar force", unit: "kN" },
+  { key: "spindleParallelismX", label: "Spindle parallelism to X", unit: "mm" },
+  { key: "spindleAcceleration", label: "Spindle acceleration", unit: "m/s^2" },
+  { key: "spindleVelocity", label: "Spindle velocity", unit: "mm/s" },
+  { key: "drawBarForce", label: "Drawbar force", unit: "kN" },
 ];
 
 function parseSubmissionMetrics(metrics: string): ParsedSubmissionMetrics {

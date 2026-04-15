@@ -4,7 +4,7 @@
     { "id": "spindle-runout-250mm", "test": "Spindle Runout", "detail": "250 mm", "unit": "mm" },
     { "id": "spindle-parallelism-x", "test": "Spindle Parallelism", "detail": "X", "unit": "mm" },
     { "id": "spindle-parallelism-y", "test": "Spindle Parallelism", "detail": "Y", "unit": "mm" },
-    { "id": "spindle-velocity", "test": "Spindle Velocity", "detail": "-", "unit": "m/s" },
+    { "id": "spindle-velocity", "test": "Spindle Velocity", "detail": "-", "unit": "mm/s" },
     { "id": "spindle-acceleration", "test": "Spindle Acceleration", "detail": "-", "unit": "m/s^2" },
     { "id": "drawbar-force", "test": "Drawbar Force", "detail": "-", "unit": "kN" },
     { "id": "straightness-x", "test": "Straightness", "detail": "X", "unit": "mm" },
@@ -36,8 +36,8 @@
         "rule": { "type": "maximum", "operator": "<=", "threshold": 0.0125, "description": "At or below 0.0125" }
       },
       "spindle-velocity": {
-        "displayValue": "0.9",
-        "rule": { "type": "maximum", "operator": "<=", "threshold": 0.9, "description": "At or below 0.9" }
+        "displayValue": "900",
+        "rule": { "type": "maximum", "operator": "<=", "threshold": 900, "description": "At or below 900" }
       },
       "spindle-acceleration": {
         "displayValue": "6",

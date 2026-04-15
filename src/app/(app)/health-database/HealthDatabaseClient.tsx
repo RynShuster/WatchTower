@@ -458,14 +458,14 @@ export function HealthDatabaseClient({ rows, machineOptions, initialFilters }: H
                     [
                       ["spindleRunout0mm", "Spindle runout at 0 mm", "mm"],
                       ["spindleRunout250mm", "Spindle runout at 250 mm", "mm"],
-                      ["spindleParallelismX", "Spindle parallelism to X", "mm"],
                       ["spindleParallelismY", "Spindle parallelism to Y", "mm"],
+                      ["spindleParallelismX", "Spindle parallelism to X", "mm"],
                       ["squarenessXY", "Squareness XY", "mm"],
                       ["squarenessXZ", "Squareness XZ", "mm"],
                       ["squarenessYZ", "Squareness YZ", "mm"],
-                      ["spindleVelocity", "Spindle velocity", "mm/s RMS"],
-                      ["spindleAcceleration", "Spindle acceleration", "m/s² RMS"],
-                      ["drawBarForce", "Draw bar force", "kN"],
+                      ["spindleVelocity", "Spindle velocity", "mm/s"],
+                      ["spindleAcceleration", "Spindle acceleration", "m/s^2"],
+                      ["drawBarForce", "Drawbar force", "kN"],
                     ] as const
                   ).map(([key, label, unit]) => (
                     <label key={key} className="healthDbEditLabel">
@@ -567,7 +567,7 @@ export function HealthDatabaseClient({ rows, machineOptions, initialFilters }: H
               <th>Straightness X</th>
               <th>Straightness Y</th>
               <th>Straightness Z</th>
-              <th>Sqaureness XY</th>
+              <th>Squareness XY</th>
               <th>Squareness XZ</th>
               <th>Squareness YZ</th>
               <th>Circularity XY</th>

@@ -559,7 +559,7 @@ export function RadarVisualization({ radarSnapshots, trendSeries }: RadarVisuali
       </div>
       <div className="machineSummaryVizSummary">
         <p className="machineSummaryVizNote">
-          Each leg is measurement / tolerance rule threshold (0–1 in spec, {`>`}1 out of spec). Draw bar force uses
+          Each leg is measurement / tolerance rule threshold (0–1 in spec, {`>`}1 out of spec). Drawbar force uses
           a rescaled band from the minimum spec to 22 kN for radar distance and for green/yellow/orange; out-of-spec
           (below minimum) still uses the true ratio and red.
         </p>

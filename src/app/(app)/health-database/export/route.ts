@@ -43,7 +43,7 @@ export async function GET(request: Request) {
     "Straightness X",
     "Straightness Y",
     "Straightness Z",
-    "Sqaureness XY",
+    "Squareness XY",
     "Squareness XZ",
     "Squareness YZ",
     "Circularity XY",

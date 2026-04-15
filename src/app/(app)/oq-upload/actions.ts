@@ -30,7 +30,7 @@ const requiredUploadFields: RequiredUploadField[] = [
   { formField: "yzFile", metricKey: "yzFile", label: "YZ" },
 ];
 const allowedUploadReasons = new Set([
-  "Preventative Maintenenace",
+  "Preventative Maintenance",
   "Post-Crash Evaluation",
   HEALTH_DATABASE_TESTING_UPLOAD_REASON,
   "Machine Commissioning",

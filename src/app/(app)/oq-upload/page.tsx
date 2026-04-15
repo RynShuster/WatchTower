@@ -87,7 +87,7 @@ export default async function OQUploadPage({ searchParams }: OQUploadPageProps) 
               <option value="" disabled>
                 Select reason
               </option>
-              <option value="Preventative Maintenenace">Preventative Maintenenace</option>
+              <option value="Preventative Maintenance">Preventative Maintenance</option>
               <option value="Post-Crash Evaluation">Post-Crash Evaluation</option>
               <option value={HEALTH_DATABASE_TESTING_UPLOAD_REASON}>Testing (Apps Team Only)</option>
               <option value="Machine Commissioning">Machine Commissioning</option>
@@ -97,9 +97,6 @@ export default async function OQUploadPage({ searchParams }: OQUploadPageProps) 
 
         <section className="oqSection">
           <h2>Manual OQ Checks</h2>
-          <p className="oqSectionNote">
-            Enter values in mm. Checks are unlocked in order and must be completed top to bottom.
-          </p>
           <ManualChecksStack />
         </section>
 
